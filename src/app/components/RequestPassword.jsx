@@ -1,26 +1,24 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Formik } from 'formik';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { useCookies } from "react-cookie";
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import axios from "axios";
 
 const url = import.meta.env.VITE_APP_URL;
 
-const Login = () => {
+const RequestPassword = () => {
     const navigate = useNavigate();
-    const [cookies, removeCookie] = useCookies([]);
     return (
-        <Container fluid className="d-flex align-items-center justify-content-center min-vh-100 position-relative theme-img">
+        <Container fluid className="d-flex align-items-center justify-content-center min-vh-100 position-relative">
             <Row className="w-100">
                 <Col xs={12} md={6} lg={4} className="mx-auto">
-                    <h1 className="text-center mb-4">Login</h1>
+                    <h1 className="text-center mb-1">Reset Password</h1>
+                    <p className='text-center mb-4'>Please insert your email here</p>
                     <Formik
-                        initialValues={{ email: '', password: '' }}
+                        initialValues={{ email: '' }}
                         validate={values => {
                             const errors = {};
-                            const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/;
                             if (!values.email) {
                                 errors.email = 'Required';
                             } else if (
@@ -28,39 +26,28 @@ const Login = () => {
                             ) {
                                 errors.email = 'Invalid email address';
                             }
-                            if (!values.password) {
-                                errors.password = 'Required';
-                            } else if (!passwordRegex.test(values.password)) {
-                                errors.password = 'Password must be at least 6 characters, include at least one special character and one number';
-                            }
                             return errors;
                         }}
                         onSubmit={async (values, { setSubmitting, resetForm }) => {
                             try {
-                                const { data } = await axios.post(
-                                    `${url}/login`,
-                                    { email: values.email, password: values.password },
-                                    { withCredentials: true }
-                                );
-                                const { success, message } = data;
-                                if (success) {
-                                    Swal.fire({
-                                        title: "Good Job!",
-                                        text: message,
-                                        icon: "success"
+                                Swal.fire({
+                                    title: "Password reset!",
+                                    text: "request has been initiated!",
+                                    icon: "success"
+                                });
+                                try {
+                                    const response = await axios.post(`${url}/reset-request`, {
+                                        email: values.email,
                                     });
-                                    setTimeout(() => {
-                                        navigate("/");
-                                    }, 1000);
-                                } else {
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "Oops...",
-                                        text: message,
-                                    });
+                                    console.log(response.data);
+                                } catch (error) {
+                                    console.error("Password reset error: ", error);
                                 }
+                                setTimeout(() => {
+                                    navigate("/info");
+                                }, 1000);
                             } catch (error) {
-                                console.error("Login error: ", error);
+                                console.log(error);
                                 Swal.fire({
                                     icon: "error",
                                     title: "Oops...",
@@ -97,23 +84,6 @@ const Login = () => {
                                         {errors.email}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-
-                                <Form.Group controlId="formPassword" className="mt-3">
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        name="password"
-                                        placeholder="Enter your password"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.password}
-                                        isInvalid={touched.password && !!errors.password}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.password}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-
                                 <Button
                                     className="w-100 mt-4 submit-btn"
                                     type="submit"
@@ -121,12 +91,11 @@ const Login = () => {
                                 >
                                     Submit
                                 </Button>
-                                <p className="mt-3">Forgot Password? <a className="text-decoration-none" href="/request-password-reset">Reset it here</a></p>
                             </Form>
                         )}
                     </Formik>
                     <div className="mt-3">
-                        <p>Not a user? <a className="text-decoration-none primary" href="/signup">Join us</a> here</p>
+                        <p className='text-center'>Remembered the password return to <a className="text-decoration-none primary" href="/login">Login</a></p>
                     </div>
                 </Col>
             </Row>
@@ -134,4 +103,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default RequestPassword;

@@ -1,0 +1,10 @@
+.submit-btn {
+  background-color: #818cf8 !important;
+  color: aliceblue !important;
+  border-color: #818cf8 !important;
+}
+
+.submit-btn:hover {
+  background-color: #6366f1 !important;
+  border-color: #6366f1 !important;
+}
