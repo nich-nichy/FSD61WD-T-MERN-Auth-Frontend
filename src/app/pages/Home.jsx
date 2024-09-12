@@ -11,6 +11,7 @@ const Home = () => {
     const [cookies, removeCookie] = useCookies(['token']);
     const [username, setUsername] = useState("");
 
+    console.log(url, "prod url")
 
     useEffect(() => {
         const verifyCookie = async () => {
