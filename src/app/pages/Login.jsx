@@ -6,7 +6,7 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useCookies } from "react-cookie";
 import Swal from 'sweetalert2';
 
-const url = import.meta.env.VITE_APP_URL;
+const url = import.meta.env.VITE_BACKEND_URL;
 
 const Login = () => {
     const navigate = useNavigate();

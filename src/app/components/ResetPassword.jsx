@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const url = import.meta.env.VITE_APP_URL;
+const url = import.meta.env.VITE_BACKEND_URL;
 
 const ResetPassword = () => {
     const { token } = useParams();

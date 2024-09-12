@@ -5,7 +5,7 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axios from "axios";
 
-const url = import.meta.env.VITE_APP_URL;
+const url = import.meta.env.VITE_BACKEND_URL;
 
 const RequestPassword = () => {
     const navigate = useNavigate();
