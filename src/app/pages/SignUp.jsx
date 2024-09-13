@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import Cookies from "js-cookie";
 
 const url = import.meta.env.VITE_BACKEND_URL;
 
@@ -45,7 +46,8 @@ const SignUp = () => {
                                     { email: values.email, password: values.password, username: values.username },
                                     { withCredentials: true }
                                 );
-                                const { success, message } = data;
+                                const { success, message, token } = data;
+                                Cookies.set("token", token, { expires: 1, secure: true, sameSite: 'None' });
                                 if (success) {
                                     Swal.fire({
                                         title: "Good Job!",

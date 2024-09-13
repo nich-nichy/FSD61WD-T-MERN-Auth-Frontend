@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import Cookies from "js-cookie";
 
 const url = import.meta.env.VITE_BACKEND_URL;
 
@@ -40,7 +41,8 @@ const Login = () => {
                                     { email: values.email, password: values.password },
                                     { withCredentials: true }
                                 );
-                                const { success, message } = data;
+                                const { success, message, token } = data;
+                                Cookies.set("token", token, { expires: 1, secure: true, sameSite: 'None' });
                                 if (success) {
                                     Swal.fire({
                                         title: "Good Job!",
@@ -53,8 +55,8 @@ const Login = () => {
                                 } else {
                                     Swal.fire({
                                         icon: "error",
-                                        title: "Oops...",
-                                        text: message,
+                                        title: "Login failed",
+                                        text: "Please check your email and password and try again",
                                     });
                                 }
                             } catch (error) {
