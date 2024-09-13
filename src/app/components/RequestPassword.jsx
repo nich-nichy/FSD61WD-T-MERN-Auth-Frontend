@@ -29,33 +29,47 @@ const RequestPassword = () => {
                             return errors;
                         }}
                         onSubmit={async (values, { setSubmitting, resetForm }) => {
-                            try {
-                                Swal.fire({
-                                    title: "Password reset!",
-                                    text: "request has been initiated!",
-                                    icon: "success"
-                                });
-                                try {
-                                    const response = await axios.post(`${url}/reset-request`, {
-                                        email: values.email,
-                                    });
-                                    console.log(response.data);
-                                } catch (error) {
-                                    console.error("Password reset error: ", error);
-                                }
-                                setTimeout(() => {
-                                    navigate("/info");
-                                }, 1000);
-                            } catch (error) {
-                                console.log(error);
+                            const { data } = await axios.post(
+                                `${url}/check-user`,
+                                { email: values.email },
+                                { withCredentials: true }
+                            );
+                            const { status } = data;
+                            if (status === false) {
                                 Swal.fire({
                                     icon: "error",
                                     title: "Oops...",
-                                    text: error
+                                    text: "User not found!",
                                 });
-                            } finally {
-                                setSubmitting(false);
-                                resetForm();
+                            } else {
+                                try {
+                                    Swal.fire({
+                                        title: "Password reset!",
+                                        text: "request has been initiated!",
+                                        icon: "success"
+                                    });
+                                    try {
+                                        const response = await axios.post(`${url}/reset-request`, {
+                                            email: values.email,
+                                        });
+                                        console.log(response.data);
+                                    } catch (error) {
+                                        console.error("Password reset error: ", error);
+                                    }
+                                    setTimeout(() => {
+                                        navigate("/info");
+                                    }, 1000);
+                                } catch (error) {
+                                    console.log(error);
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: error
+                                    });
+                                } finally {
+                                    setSubmitting(false);
+                                    resetForm();
+                                }
                             }
                         }}
                     >
