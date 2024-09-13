@@ -13,6 +13,7 @@ const Home = () => {
 
     console.log(url, "prod url")
     console.log(cookies.token, "cookie token global");
+    console.log(cookies, "cookies");
 
     useEffect(() => {
         const verifyCookie = async () => {
