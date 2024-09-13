@@ -9,7 +9,10 @@ const url = import.meta.env.VITE_BACKEND_URL;
 const Home = () => {
     const navigate = useNavigate();
     const userToken = Cookies.get("token");
+    const tempTok = Cookies.get("token_client")
     const [username, setUsername] = useState("");
+
+    console.log(userToken, tempTok)
 
     useEffect(() => {
         const verifyCookie = async () => {
@@ -48,7 +51,6 @@ const Home = () => {
         });
         Cookies.remove('token')
         navigate("/signup");
-
     };
 
     return (
