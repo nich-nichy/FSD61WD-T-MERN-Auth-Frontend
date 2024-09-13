@@ -19,7 +19,7 @@ const Home = () => {
             try {
                 const { data } = await axios.post(
                     `${url}/`,
-                    {},
+                    { token: userToken },
                     { withCredentials: true }
                 );
                 console.log("data", data);
