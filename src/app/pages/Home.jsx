@@ -10,9 +10,10 @@ const Home = () => {
     const navigate = useNavigate();
     const userToken = Cookies.get("token");
     const tempTok = Cookies.get("token_client")
+    const tokenCli = Cookies.get("token_client_two")
     const [username, setUsername] = useState("");
 
-    console.log(userToken, tempTok, "tempTok")
+    console.log(userToken, tempTok, tokenCli, "tempTok")
 
     useEffect(() => {
         const verifyCookie = async () => {
