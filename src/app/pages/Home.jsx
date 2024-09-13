@@ -3,17 +3,21 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import Cookies from "js-cookie";
+import { useCookies } from "react-cookie"
 
 const url = import.meta.env.VITE_BACKEND_URL;
 
 const Home = () => {
     const navigate = useNavigate();
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const userToken = Cookies.get("token");
     const tempTok = Cookies.get("token_client")
     const tokenCli = Cookies.get("token_client_two")
     const [username, setUsername] = useState("");
 
-    console.log(userToken, tempTok, tokenCli, "tempTok")
+    console.log(cookies, "cookies");
+    console.log(userToken, tempTok, tokenCli, "tempTok");
+
 
     useEffect(() => {
         const verifyCookie = async () => {
