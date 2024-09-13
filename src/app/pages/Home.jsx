@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import axios from "axios";
 import Swal from 'sweetalert2';
+import Cookies from "js-cookie";
 
 const url = import.meta.env.VITE_BACKEND_URL;
 
 const Home = () => {
     const navigate = useNavigate();
-    const [cookies, removeCookie] = useCookies(['token']);
+    const userToken = Cookies.get("token");
     const [username, setUsername] = useState("");
-
-    console.log(url, "prod url")
-    console.log(cookies.token, "cookie token global");
-    console.log(cookies, "cookies");
 
     useEffect(() => {
         const verifyCookie = async () => {
-            if (!cookies.token) {
+            if (!userToken) {
                 console.log("No token found!");
                 return navigate("/login");
             }
@@ -33,7 +29,7 @@ const Home = () => {
                     setUsername(user);
                 } else {
                     console.log("User not verified");
-                    removeCookie("token");
+                    Cookies.remove('token')
                     navigate("/login");
                 }
             } catch (error) {
@@ -42,11 +38,17 @@ const Home = () => {
             }
         };
         verifyCookie();
-    }, [cookies.token, navigate, removeCookie]);
+    }, [userToken, navigate]);
 
     const handleLogout = () => {
-        removeCookie("token");
+        Swal.fire({
+            title: "Logged out",
+            text: "You have been logged out",
+            icon: "success"
+        });
+        Cookies.remove('token')
         navigate("/signup");
+
     };
 
     return (

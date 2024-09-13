@@ -3,14 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Formik } from 'formik';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { useCookies } from "react-cookie";
 import Swal from 'sweetalert2';
 
 const url = import.meta.env.VITE_BACKEND_URL;
 
 const SignUp = () => {
     const navigate = useNavigate();
-    const [cookies, removeCookie] = useCookies([]);
     return (
         <Container fluid className="d-flex align-items-center justify-content-center min-vh-100 position-relative">
             <Row className="w-100">
