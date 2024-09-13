@@ -12,10 +12,12 @@ const Home = () => {
     const [username, setUsername] = useState("");
 
     console.log(url, "prod url")
+    console.log(cookies.token, "cookie token global");
 
     useEffect(() => {
         const verifyCookie = async () => {
             if (!cookies.token) {
+                console.log("No token found!");
                 return navigate("/login");
             }
             try {
@@ -24,10 +26,12 @@ const Home = () => {
                     {},
                     { withCredentials: true }
                 );
+                console.log("data", data);
                 const { status, user } = data;
                 if (status) {
                     setUsername(user);
                 } else {
+                    console.log("User not verified");
                     removeCookie("token");
                     navigate("/login");
                 }
